@@ -3,7 +3,7 @@ import requests
 from PIL import Image, ImageTk
 app = tk.Tk()
 app.iconphoto(False, tk.PhotoImage(file='icona.png'))
-app.title('Apple počasí')
+app.title('Počasí')
 vyska = 720
 sirka = 1080
 
@@ -93,9 +93,6 @@ def open_image(icon):
    weather_icon.image = img
 
 
-
-
-
 #obrázek
 C = tk.Canvas(app, height=vyska, width=sirka)
 zadni_obrazek= tk.PhotoImage(file='Weather2.png')
@@ -122,5 +119,4 @@ label.place(relwidth=1, relheight=1)
 weather_icon = tk.Canvas(label, bg='white', bd=0, highlightthickness=0)
 weather_icon.place(relx=.75, rely=0, relwidth=1, relheight=0.5)
 
-#new
 app.mainloop()
