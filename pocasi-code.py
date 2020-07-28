@@ -90,7 +90,7 @@ def format3(weather_json):
 
 
 def pocasi(city):
-   pocasi_key = '9f7913914b03b001c0cca319edf16901'
+   pocasi_key = ''
    url = 'https://api.openweathermap.org/data/2.5/weather'
    params = {'APPID': pocasi_key, 'q': city, 'units': 'Metric'}
    response = requests.get(url, params=params)
