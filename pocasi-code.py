@@ -18,13 +18,8 @@ def format1(weather_json):
 	try:
             mesto = weather_json['name']
             desc = weather_json['weather'][0]['description']
-            teplota = round(weather_json ['main']['temp'])
             teplota_max = round(weather_json['main']['temp_max'])
             teplota_min = round(weather_json['main']['temp_min'])
-            rychlos_vetru = weather_json['wind']['speed']
-            
-
-        
             #překlad
             en_1 = "clear sky"
             if desc == en_1:
@@ -66,21 +61,46 @@ def format1(weather_json):
             if mesto == en_10:
                mesto = ("Praha")
          
-            vysledek = '  Město: %s \n  Podmínky: %s \n  Teplota: %s °c \n  Max. teplota: %s °c \n  Min. teplota: %s °c \n  Rychlost větru: %s m/s' % (mesto, desc, teplota, teplota_max, teplota_min, rychlos_vetru)
+            vysledek = 'Podmínky: %s \nMax. teplota: %s°c \nMin. teplota: %s°c' % (desc, teplota_max, teplota_min)
+	except:
+		vysledek = ''
+	return vysledek
+
+def format2(weather_json): 
+	try:
+            mesto = weather_json['name']  
+            teplota = round(weather_json ['main']['temp'])
+            vysledek = '%s\n %s°c' % (mesto, teplota) 
 	except:
 		vysledek = 'Došlo k potížím!'
 	return vysledek
 
+def format3(weather_json): 
+	try:
+            rychlos_vetru = weather_json['wind']['speed']
+            tlak= weather_json['main']['pressure']
+            vysledek = '%sm/s \nTlak: %s hPa \n' % (rychlos_vetru, tlak)
+	except:
+		vysledek = ''
+	return vysledek
+
+
+
+   
 
 
 def pocasi(city):
-   pocasi_key = ''
+   pocasi_key = '9f7913914b03b001c0cca319edf16901'
    url = 'https://api.openweathermap.org/data/2.5/weather'
    params = {'APPID': pocasi_key, 'q': city, 'units': 'Metric'}
    response = requests.get(url, params=params)
    weather_json = response.json()
 
-   label['text'] = format1(response.json())
+
+
+   label['text'] = format2(response.json())
+   label2['text'] = format1(response.json())
+   label3['text'] = format3(response.json())
 
    icon_name = weather_json['weather'][0]['icon']
    open_image(icon_name)
@@ -91,6 +111,9 @@ def open_image(icon):
    weather_icon.delete("all")
    weather_icon.create_image(0,0, anchor='nw', image=img)
    weather_icon.image = img
+
+
+
 
 
 #obrázek
@@ -106,17 +129,35 @@ frame.place(relx=0.5, rely=0.1, relwidth= 0.75, relheight=0.1, anchor='n')
 entry = tk.Entry(frame, font=('calibri', 20, 'bold'))
 entry.place(relwidth=0.65, relheight=1)
 
-tlačítko = tk.Button(frame, borderwidth= 0, bg='#6bff6e',activebackground='#60f063',  text="Počasí", font=('calibri', 20, 'bold'), command=lambda: pocasi (entry.get()))
+tlačítko = tk.Button(frame, borderwidth= 0, bg='#6bff6e',activebackground='#60f063',  text="Počasí", font=('calibri',25, 'bold') ,command=lambda: pocasi (entry.get()))
 tlačítko.place(relx=0.7, relheight=1, relwidth=0.3)
 
+
+#spodni_frame
 spodní_frame= tk.Frame(app, bg='#ffc766', bd=10 )   
 spodní_frame.place(relx=0.5, rely=0.25, relwidth=0.75, relheight=0.6, anchor='n')
 
+#teplota + mesto(format2)
+label = tk.Label(spodní_frame, font=('Andale Mono', 45, 'bold'),bg='#243755' ,anchor='center',justify= 'left', foreground="white")
+label.place(relwidth=1, relheight=0.5)
 
-label = tk.Label(spodní_frame, font=('calibri', 20, 'bold'),bg='white' ,anchor='nw',justify= 'left')
-label.place(relwidth=1, relheight=1)
+#temp_min + temp_max + desc (format1)
+label2 = tk.Label(spodní_frame, font=('Andale Mono', 15, 'bold'),bg='#243755' ,anchor='center',justify= 'left', foreground="white")
+label2.place(rely= 0.5,relwidth=0.5, relheight=0.5 )
 
-weather_icon = tk.Canvas(label, bg='white', bd=0, highlightthickness=0)
-weather_icon.place(relx=.75, rely=0, relwidth=1, relheight=0.5)
+#rychlos_vetru + tlak (format3)
+label3 = tk.Label(spodní_frame, font=('Andale Mono', 15, 'bold'),bg='#243755' ,anchor='center',justify= 'left', foreground="white")
+label3.place(rely= 0.5,relwidth=0.5, relheight=0.5, relx= 0.5 )
+
+
+
+
+#icona_pocasi
+weather_icon = tk.Canvas(label, bg='#243755', bd=0, highlightthickness=0)
+weather_icon.place(relx=0.75, rely=0.25, relwidth=1, relheight=0.5)
+
+
 
 app.mainloop()
+#243755 - barva
+
