@@ -16,7 +16,7 @@ sirka = 1080
 #nastavení asi
 def format1(weather_json): 
 	try:
-            mesto = weather_json['name']
+   
             desc = weather_json['weather'][0]['description']
             teplota_max = round(weather_json['main']['temp_max'])
             teplota_min = round(weather_json['main']['temp_min'])
@@ -56,10 +56,6 @@ def format1(weather_json):
             en_9 = "mist"
             if desc == en_9:
                desc = ("Mlha")
-            
-            en_10 = "Prague"
-            if mesto == en_10:
-               mesto = ("Praha")
          
             vysledek = 'Podmínky: %s \nMax. teplota: %s°c \nMin. teplota: %s°c' % (desc, teplota_max, teplota_min)
 	except:
@@ -70,6 +66,9 @@ def format2(weather_json):
 	try:
             mesto = weather_json['name']  
             teplota = round(weather_json ['main']['temp'])
+            en_10 = "Prague"
+            if mesto == en_10:
+               mesto = ("Praha")
             vysledek = '%s\n %s°c' % (mesto, teplota) 
 	except:
 		vysledek = 'Došlo k potížím!'
@@ -79,7 +78,7 @@ def format3(weather_json):
 	try:
             rychlos_vetru = weather_json['wind']['speed']
             tlak= weather_json['main']['pressure']
-            vysledek = '%sm/s \nTlak: %s hPa \n' % (rychlos_vetru, tlak)
+            vysledek = '%sm/s \nTlak: %s hPa\n' % (rychlos_vetru, tlak)
 	except:
 		vysledek = ''
 	return vysledek
@@ -90,7 +89,7 @@ def format3(weather_json):
 
 
 def pocasi(city):
-   pocasi_key = '9f7913914b03b001c0cca319edf16901'
+   pocasi_key = ''
    url = 'https://api.openweathermap.org/data/2.5/weather'
    params = {'APPID': pocasi_key, 'q': city, 'units': 'Metric'}
    response = requests.get(url, params=params)
